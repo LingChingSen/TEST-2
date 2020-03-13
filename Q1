@@ -1,0 +1,105 @@
+import java.util.Scanner;
+public class Test2{
+
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String name,id,incomeType;
+        double amount,tax;
+        
+        System.out.print("Please enter staff name: ");
+        name = input.nextLine();
+        System.out.print("Please enter staff ID: ");
+        id = input.nextLine();
+        System.out.print("Please enter income type: ");
+        incomeType = input.nextLine();
+        System.out.print("Please enter income amount: ");
+        amount = input.nextDouble();
+        System.out.print("Please enter income tax percentage: ");
+        tax = input.nextDouble();
+
+        Income i = new Income(incomeType,amount,tax);
+        Staff s = new Staff(name, id, i);
+        s.displayStaffInfo();
+        s.displayIncomeInfo();
+    }
+}
+
+class Income{
+
+    private String incomeType;
+    private double amount,tax,totalTax;
+
+    public Income(String incomeType, double amount, double tax){
+        this.incomeType = incomeType;
+        this.amount = amount;
+        this.tax = tax;
+    }
+
+    public String getIncomeType(){
+            return incomeType;
+    }
+
+    public double getAmount(){
+        return amount;
+    }
+
+    public double getTax(){
+        return tax;
+    }
+
+    public double getTotalTax(){
+        totalTax = (tax/100)*amount;
+        return totalTax;
+    }
+}
+
+class Staff{
+
+    private String name,id;
+    private Income income;
+
+    public Staff(String name, String id, Income income){
+        this.name = name;
+        this.id = id;
+        this.income = income;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public double calculateNetIncome(){
+        double netIncome = income.getAmount()-income.getTotalTax();
+        return netIncome;
+    }
+    
+    
+
+    public void displayStaffInfo(){
+    
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.printf("\nStaff Info:\n");
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.println("Name: " + getName());
+        System.out.println("ID: " + getId());
+    }
+
+
+
+    public void displayIncomeInfo(){
+    
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.printf("\nIncome Info:\n");
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.println("Income Type: " + income.getIncomeType());
+        System.out.printf("Income Amount: RM %.2f\n", income.getAmount());
+        System.out.println("Income Tax Percentage: " + income.getTax() + "%");
+        System.out.printf("Total Tax Paid: RM %.2f\n" , income.getTotalTax());
+        System.out.printf("Total Net Income: RM %.2f\n" ,calculateNetIncome());
+    }
+}
